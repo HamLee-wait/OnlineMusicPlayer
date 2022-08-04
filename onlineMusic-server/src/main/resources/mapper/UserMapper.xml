@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xxxx.server.mapper.UserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.xxxx.server.pojo.User">
+        <id column="userId" property="userId" />
+        <result column="username" property="username" />
+        <result column="password" property="password" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        userId, username, password
+    </sql>
+    <insert id="register" parameterType="java.util.Map">
+        INSERT USER(username,password,e_mail,phoneNumber,address,salt)
+        VALUES (#{param.username},#{param.password},#{param.e_mail},#{param.phoneNumber},#{param.address},#{param.salt});
+    </insert>
+</mapper>

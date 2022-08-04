@@ -1,0 +1,51 @@
+spring:
+  security:
+    user:
+      name: Lee
+      password: lee@123456
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/onlinemusicserver?characterEncoding=utf8&useSSL=false&serverTimezone=UTC&rewriteBatchedStatements=true
+    username: root
+    password: lee@123456
+    hikari:
+      pool-name: DateHikariCP
+      minimum-idle: 5
+      idle-timeout: 180000
+      maximum-pool-size: 10
+      auto-commit: true
+      max-lifetime: 1800000
+      connection-timeout: 30000
+      connection-test-query: SELECT 1
+  servlet:
+    #  spring.servlet.multipart.max-file-size = 15MB
+    #  spring.servlet.multipart.max-request-size=100MB
+    #  配置上传文件的大小
+
+    multipart:
+      max-file-size: 15MB
+      max-request-size: 100MB
+upload:
+  path: D:/Music/
+
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/*Mapper.xml
+  type-aliases-package: com.xxxx.server.pojo
+  configuration:
+    map-underscore-to-camel-case: false
+logging:
+  level:
+    com.xxxx.server.mapper: debug
+jwt:
+  # JWT存储的请求头
+  tokenHeader: Authorization
+  # JWT 加解密使用的密钥
+  secret: keys
+  # JWT的超期限时间（60*60*24）
+  expiration: 604800
+  # JWT 负载中拿到开头
+  tokenHead: Bearer
+
+server:
+  port: 8083
