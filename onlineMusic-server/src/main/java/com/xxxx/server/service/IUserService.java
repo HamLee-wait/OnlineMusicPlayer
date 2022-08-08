@@ -20,4 +20,5 @@ public interface IUserService extends IService<User> {
     RespBean register(RegisterParamBean registerParam);
 
     RespBean login(String username, String password, String code, HttpServletRequest request);
+
 }

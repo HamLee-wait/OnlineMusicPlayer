@@ -29,5 +29,8 @@ public class MD5Utils {
         }
         return sb.toString();
     }
+    public static String encryption(String password,String salt){
+        return DigestUtils.md5Hex(salt+password);
+    }
 
 }

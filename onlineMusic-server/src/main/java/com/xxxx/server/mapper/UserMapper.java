@@ -16,7 +16,12 @@ import java.util.Map;
  */
 public interface UserMapper extends BaseMapper<User> {
 
-    int getNumberByUsername();
 
     void register(@Param("param") Map<String, Object> map);
+
+    String getPasswordByUsername(String username);
+
+    String getSaltByUsername(String username);
+
+    int getNumberByUsername();
 }

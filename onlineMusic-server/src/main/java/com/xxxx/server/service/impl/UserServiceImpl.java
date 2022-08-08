@@ -55,10 +55,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     @Override
     public RespBean login(String username, String password, String code, HttpServletRequest request) {
         String captcha=(String)request.getSession().getAttribute("captcha");
-        if(StringUtils.isEmpty(captcha)||!captcha.equalsIgnoreCase(code))//不区分大小写
+        if(captcha==null||!captcha.equalsIgnoreCase(code))//不区分大小写
         {
             return RespBean.error("验证码输入错误,请重新输入!");
         }
-        return null;
+        String userPassword=userMapper.getPasswordByUsername(username);
+        String salt =userMapper.getSaltByUsername(username);
+        if(userPassword==null)
+            return RespBean.error("不存在该用户，请先注册");
+        String encryption=MD5Utils.encryption(password,salt);
+        if(!encryption.equals(userPassword)){
+            return RespBean.error("密码错误，请重新输入");
+        }
+
+        return RespBean.success("登录成功！");
     }
 }
