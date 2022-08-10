@@ -13,8 +13,19 @@
     <sql id="Base_Column_List">
         userId, username, password
     </sql>
+    <select id="getNumberByUsername" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM USER WHERE USER.USERNAME=#{param}
+    </select>
     <insert id="register" parameterType="java.util.Map">
         INSERT USER(username,password,e_mail,phoneNumber,address,salt)
-        VALUES (#{param.username},#{param.password},#{param.e_mail},#{param.phoneNumber},#{param.address},#{param.salt});
+        VALUES (#{param.username},#{param.encryption},#{param.e_mail},#{param.phoneNumber},#{param.address},#{param.salt});
     </insert>
+    <!-- 根据用户名返回加密密码-->
+    <select id="getPasswordByUsername" parameterType="java.lang.String" resultType="java.lang.Integer">
+        SELECT PASSWORD FROM USER WHERE USER.USERNAME=#{param}
+    </select>
+    <!--根据用户名返回盐值-->
+    <select id="getSaltByUsername" parameterType="java.lang.String" resultType="java.lang.String">
+        SELECT SALT FROM USER WHERE USER.USERNAME=#{param}
+    </select>
 </mapper>

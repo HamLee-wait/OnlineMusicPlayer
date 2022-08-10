@@ -19,9 +19,9 @@ public interface UserMapper extends BaseMapper<User> {
 
     void register(@Param("param") Map<String, Object> map);
 
-    String getPasswordByUsername(String username);
+    String getPasswordByUsername(@Param("param") String username);
 
-    String getSaltByUsername(String username);
+    String getSaltByUsername(@Param("param") String username);
 
-    int getNumberByUsername();
+    int getNumberByUsername(@Param("param") String username);
 }

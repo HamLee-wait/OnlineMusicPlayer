@@ -18,7 +18,11 @@ public class LoginController {
     @ApiOperation("登录之后返回token")
     @PostMapping("/login")
     public RespBean Login(@RequestBody AdminLoginParam adminLoginParam,HttpServletRequest request){
-
         return userService.login(adminLoginParam.getUsername(),adminLoginParam.getPassword(),adminLoginParam.getCode(),request);
+    }
+    @ApiOperation(value = "注销功能")
+    @PostMapping("/logout")
+    public RespBean Logout(){
+        return RespBean.success("注销成功");
     }
 }

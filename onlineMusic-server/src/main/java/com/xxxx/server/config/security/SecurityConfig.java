@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,6 +24,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private RestfulAccessDeniedHandler restfulAccessDeniedHandler;
     @Autowired
     private RestAuthorizationEntryPoint restAuthorizationEntryPoint;
+    @Autowired
+    private IUserService userService;
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()//关闭csrf保护
@@ -30,13 +33,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
+                .antMatchers("/login","/hello/**","/register/**","/logout")
+                .permitAll()
                 .anyRequest().authenticated();
-        //添加过滤器
+        //添加jwt登录过滤器
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
         http.exceptionHandling()
+                //未授权的自定义返回结果
                 .accessDeniedHandler(restfulAccessDeniedHandler)
+                //未登录情况下的自定义返回结果
                 .authenticationEntryPoint(restAuthorizationEntryPoint);
 
+    }
+    @Override
+    @Bean
+    public UserDetailsService userDetailsService(){
+        return username->{
+            User user=userService.getUserByUsername(username);
+            if(user!=null)
+                return user;
+            return null;
+        };
     }
     @Override
     public void configure(WebSecurity web) throws Exception {
