@@ -12,6 +12,7 @@ import com.xxxx.server.service.IUserService;
 import com.xxxx.server.utils.MD5Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,7 +46,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     private JwtUtils jwtUtils;
     @Value("${jwt.tokenHeader}")
     private String tokenHead;
-//    private
 
     @Override
     public RespBean register(RegisterParamBean registerParam) {
@@ -76,9 +77,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         UserDetails userDetails= userDetailsService.loadUserByUsername(username);
         String salt =userMapper.getSaltByUsername(username);
         String encryption=MD5Utils.encryption(password,salt);
-        if(userDetails==null|| passwordEncoder.matches(encryption,userDetails.getPassword()))
+//        System.out.println("****************Log1 登录Impl************************");
+//        System.out.println("encryption"+encryption);
+//        System.out.println(userDetails.getPassword());
+//        System.out.println(passwordEncoder.matches(encryption,userDetails.getPassword()));
+        if(userDetails==null|| !userDetails.getPassword().equals(encryption))
             return RespBean.error("用户名或密码不正确！");
-//        String captcha=(String)request.getSession().getAttribute("captcha");
+        String captcha=(String)request.getSession().getAttribute("captcha");
+        HttpSession session=request.getSession();
+        System.out.println(captcha);
+        if(StringUtils.isEmpty(code)||!captcha.equals(code)){
+            return RespBean.error("验证码错误，请重新输入验证码!");
+        }
         //登录成功，生成一个token，更新security用户对象
         UsernamePasswordAuthenticationToken authenticationToken=new UsernamePasswordAuthenticationToken(userDetails,
                 null,userDetails.getAuthorities());

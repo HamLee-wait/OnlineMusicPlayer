@@ -33,7 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/login","/hello/**","/register/**","/logout")
+                .antMatchers("/login","/register/**","/logout")
                 .permitAll()
                 .anyRequest().authenticated();
         //添加jwt登录过滤器

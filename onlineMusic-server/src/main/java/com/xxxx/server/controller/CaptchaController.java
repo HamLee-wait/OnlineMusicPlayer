@@ -30,6 +30,8 @@ public class CaptchaController {
         //获取算术表达式
         String text=captcha.getArithmeticString();
         System.out.println(text);
+        //把算数验证码的结果放进request的session中
+        request.getSession().setAttribute("captcha",result);
         captcha.out(response.getOutputStream());
     }
 }
