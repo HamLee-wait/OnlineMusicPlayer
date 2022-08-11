@@ -29,16 +29,16 @@ public class Music implements Serializable {
 
     @TableId(value = "musicId", type = IdType.AUTO)
     private Integer musicId;
-
+    @ApiModelProperty(value = "音乐名称")
     private String title;
-
+    @ApiModelProperty(value = "歌手")
     private String author;
+    @ApiModelProperty(value = "上传时间")
     @TableField(value ="uploadtime" )
     private LocalDateTime uploadTime;
-
+    @ApiModelProperty(value = "文件的路径")
     private String path;
-
+    @ApiModelProperty(value = "上传者的id，即当前用户的id")
     private Integer userId;
-
 
 }

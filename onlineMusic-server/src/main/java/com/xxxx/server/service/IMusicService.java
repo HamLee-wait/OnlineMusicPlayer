@@ -2,6 +2,9 @@ package com.xxxx.server.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.xxxx.server.pojo.Music;
+import com.xxxx.server.pojo.RespBean;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * <p>
@@ -13,4 +16,5 @@ import com.xxxx.server.pojo.Music;
  */
 public interface IMusicService extends IService<Music> {
 
+    RespBean upload(String title, String author, String path, HttpServletRequest request);
 }
