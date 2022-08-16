@@ -19,10 +19,11 @@ import java.net.URI;
 public class MusicPlay extends Application {
     public static void main(String[] args) throws IOException, JavaLayerException {
             MusicPlays.AudioPlayer();
+//        launch(args);
     }
     @Override
     public void start(Stage primaryStage) throws Exception {
-        File file = new File("D:/Music/不要说话.mp3");
+        File file = new File("D:/Music/周杰伦/说好不哭.m4a");
         URI uri = file.toURI();
         System.out.println(uri);
 

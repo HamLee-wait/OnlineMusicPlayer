@@ -5,6 +5,7 @@ import com.xxxx.server.pojo.Music;
 import com.xxxx.server.pojo.RespBean;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * <p>
@@ -17,4 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 public interface IMusicService extends IService<Music> {
 
     RespBean upload(String title, String author, String path, HttpServletRequest request);
+
+    List<Music> getMusicByTitle(String title);
+
 }

@@ -1,5 +1,6 @@
 package com.xxxx.server.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.xxxx.server.pojo.Music;
 import com.xxxx.server.mapper.MusicMapper;
 import com.xxxx.server.pojo.RespBean;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * <p>
@@ -36,12 +38,19 @@ public class MusicServiceImpl extends ServiceImpl<MusicMapper, Music> implements
         LocalDateTime localDateTime=LocalDateTime.now();
         music.setUploadTime(localDateTime);
         String username = (String) request.getSession().getAttribute("username");
+        System.out.println("Log**************** username:"+username);
         int uId=userService.getUserByUsername(username).getUserId();
+        System.out.println("Log***************** uid"+uId);
         music.setUserId(uId);
         if(1==musicMapper.insert(music)){
             return RespBean.success("上传成功(*^_^*)");
         }
         return RespBean.error("上传失败/(ㄒoㄒ)/~~");
 
+    }
+
+    @Override
+    public List<Music> getMusicByTitle(String title) {
+        return musicMapper.selectList(new QueryWrapper<Music>().eq("title",title));
     }
 }

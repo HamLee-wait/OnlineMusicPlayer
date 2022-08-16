@@ -1,7 +1,9 @@
 package com.xxxx.server.utils;
 
 import com.xxxx.server.controller.MusicController;
+import com.xxxx.server.pojo.Music;
 import com.xxxx.server.pojo.RespBean;
+import com.xxxx.server.service.IMusicService;
 import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.Player;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,15 +22,26 @@ public class MusicPlays {
     /**
      * 先测试一下能不能拿到controller播放的音频流
      */
+
     public static void AudioPlayer() throws IOException, JavaLayerException {
-        RespBean respBean=readMusic("不要说话.mp3");
+        RespBean respBean=readMusic("说好不哭.m4a","周杰伦");
         //应该是拿到了文件流了
         byte[] res= (byte[]) respBean.getObject();
         writerByteToFileInputStream(res);
 
     }
-    private static RespBean readMusic(String filename) throws IOException {
-        File file=new File("D:/Music/"+filename);
+
+    /**
+     * 8.16号更新一下，因为歌手增多，文件管理方式出现，所以需要重新进行测试
+     * @param filename
+     * @return
+     * @throws IOException
+     */
+    //先拿一个容器，获取其对象
+    @Autowired
+    private static IMusicService musicService;
+    private static RespBean readMusic(String filename,String author) throws IOException {
+        File file=new File("D:/Music/"+author+'/'+filename);
         byte[] res=null;
         res= Files.readAllBytes(file.toPath());
         if(res!=null){

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.OutputStream;
 
 /**
@@ -32,6 +33,7 @@ public class CaptchaController {
         System.out.println(text);
         //把算数验证码的结果放进request的session中
         request.getSession().setAttribute("captcha",result);
+        HttpSession session=request.getSession();
         captcha.out(response.getOutputStream());
     }
 }

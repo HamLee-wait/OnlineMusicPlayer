@@ -97,6 +97,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         Map<String,String> map=new HashMap<>();
         map.put("tokenHead",tokenHead);
         map.put("token",token);
+        //把username放到session里面方便之后使用
         request.getSession().setAttribute("username",username);
         return RespBean.success("登录成功！",map);
     }
@@ -105,5 +106,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     public User getUserByUsername(String username) {
         return userMapper.selectOne(new QueryWrapper<User>().eq("username",username));
     }
+
 
 }
